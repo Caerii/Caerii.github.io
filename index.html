@@ -1,99 +1,517 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caerii - GitHub Showcase</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .header, .footer {
-            background-color: #24292e;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .projects-section {
-            padding: 50px;
-            text-align: center;
-        }
-        .project-card {
-            background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .project-card h3 {
-            margin-bottom: 15px;
-        }
-        .project-card a {
-            text-decoration: none;
-            color: #0366d6;
-        }
-        .project-card a:hover {
-            text-decoration: underline;
-        }
-        .stars {
-            font-size: 16px;
-            color: #f39c12;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Caerii — Modular Robotics & AI Swarms</title>
+  <link rel="canonical" href="https://caerii.github.io/">
+
+  <!-- SEO -->
+  <meta name="description" content="Modular robotics, AI swarms, and neuroadaptive XR by Alif Jakir (Caerii). Prototypes where sci-fi bleeds into reality." />
+  <meta name="author" content="Alif Jakir (Caerii)" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Caerii — Modular Robotics & AI Swarms">
+  <meta property="og:description" content="I build systems that think, move, and evolve. Expect prototypes, chaos, breakthroughs.">
+  <meta property="og:image" content="https://caerii.github.io/img/hero.webp">
+  <meta property="og:url" content="https://caerii.github.io/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Caerii Portfolio">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Caerii — Modular Robotics & AI Swarms">
+  <meta name="twitter:description" content="Modular robotics, AI swarms, and neuroadaptive XR.">
+  <meta name="twitter:image" content="https://caerii.github.io/img/hero.webp">
+
+  <!-- Icons -->
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Fonts (preload then load) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap" onload="this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@400;600;700&display=swap"></noscript>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Person",
+    "name":"Alif Jakir",
+    "alternateName":"Caerii",
+    "url":"https://caerii.github.io/",
+    "sameAs":[
+      "https://github.com/Caerii",
+      "https://linkedin.com/in/alif-jakir",
+      "https://twitter.com/caerii_dev"
+    ],
+    "jobTitle":"AI Engineer — Modular Robotics & BCI"
+  }
+  </script>
+
+  <style>
+    /* ===================  DESIGN TOKENS  =================== */
+    :root{
+      /* Color */
+      --bg:#0b0e12; --bg-2:#10151c; --bg-3:#141a22;
+      --ink:#eaf2ff; --ink-2:#a6b8d6; --ink-3:#7485a0;
+      --acc:#7df9ff; --acc-2:#ff3d81;
+      --border:#202a3a; --card:#0f141b;
+      --shadow: 0 22px 60px rgba(0,0,0,.35);
+
+      /* Type scale */
+      --fs-1: clamp(14px, 1.2vw, 15px);
+      --fs-2: clamp(15px, 1.25vw, 16px);
+      --fs-3: clamp(18px, 1.6vw, 20px);
+      --fs-4: clamp(22px, 2.2vw, 26px);
+      --fs-5: clamp(30px, 3.8vw, 42px);
+      --fs-6: clamp(40px, 6vw, 68px);
+
+      /* Spacing scale */
+      --s-1: clamp(6px, 0.7vw, 8px);
+      --s-2: clamp(10px, 1vw, 12px);
+      --s-3: clamp(14px, 1.4vw, 16px);
+      --s-4: clamp(18px, 1.8vw, 22px);
+      --s-5: clamp(24px, 2.4vw, 30px);
+      --s-6: clamp(32px, 3.2vw, 40px);
+      --s-7: clamp(44px, 4.4vw, 56px);
+      --s-8: clamp(64px, 6vw, 88px);
+
+      /* Layout */
+      --radius: 18px;
+      --max: 1200px;
+      --measure: 68ch;
+
+      /* Motion */
+      --ease-spring: cubic-bezier(.17, .67, .2, 1.3);
+      --ease-smooth: cubic-bezier(.2,.8,.2,1);
+      --dur-1: 120ms; --dur-2: 220ms; --dur-3: 560ms;
+    }
+    [data-theme="light"]{
+      --bg:#ffffff; --bg-2:#f7f9fc; --bg-3:#eef2f7;
+      --ink:#0e1320; --ink-2:#2e3c57; --ink-3:#5a6987;
+      --acc:#0057ff; --acc-2:#ff2b6a;
+      --border:#e3e8f2; --card:#ffffff;
+      --shadow: 0 18px 50px rgba(10,30,70,.08);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    }
+
+    /* ===================  BASE  =================== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 800px at 110% -10%, rgba(125,249,255,.08), transparent 50%),
+        radial-gradient(900px 600px at -10% 110%, rgba(255,61,129,.06), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg-2) 45%, var(--bg));
+      font:400 var(--fs-2)/1.7 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      letter-spacing:.1px;
+      scroll-behavior:smooth;
+    }
+    .container{max-width:var(--max); margin-inline:auto; padding-inline: clamp(16px, 3vw, 28px)}
+    main > section{padding-block: var(--s-8) var(--s-8)}
+
+    a{color:inherit;text-decoration:none}
+    a:focus-visible, button:focus-visible {outline:2px solid var(--acc); outline-offset:3px; border-radius:10px}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+    /* ===================  HEADER  =================== */
+    header{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter:saturate(120%) blur(10px);
+      background:linear-gradient(180deg, rgba(10,14,20,.85), rgba(10,14,20,.35));
+      border-bottom:1px solid var(--border);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding-block: var(--s-3)}
+    .brand{
+      font:700 22px/1 Space Grotesk, Inter, sans-serif;
+      letter-spacing:.5px;
+      background:linear-gradient(90deg,var(--ink) 0%, var(--acc) 70%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .links{display:flex; gap: clamp(12px, 2.2vw, 28px); align-items:center}
+    .links a{color:var(--ink-2); font-weight:600; letter-spacing:.3px}
+    .links a:hover{color:var(--acc)}
+    .toggle{
+      border:1px solid var(--border); background:transparent; color:var(--ink);
+      padding: var(--s-2) var(--s-3); border-radius:12px; cursor:pointer;
+      transition: transform var(--dur-1) var(--ease-spring), border-color var(--dur-2);
+    }
+    .toggle:hover{ transform: translateY(-1px); border-color: var(--acc) }
+
+    /* ===================  HERO  =================== */
+    .hero{position:relative; overflow:hidden}
+    .hero-grid{display:grid; grid-template-columns: 1.15fr .85fr; gap: var(--s-7); align-items:end}
+    .headline{
+      font:800 var(--fs-6)/1.06 Space Grotesk, Inter, sans-serif;
+      letter-spacing:-.6px; margin:0 0 var(--s-3) 0;
+      max-width: 24ch;
+    }
+    .slant{
+      display:inline-block; transform:skewX(-10deg); padding:.15em .35em;
+      background:
+        linear-gradient(100deg, rgba(125,249,255,.18), rgba(255,61,129,.18)),
+        linear-gradient(180deg, transparent 40%, rgba(125,249,255,.08));
+      border-radius:12px;
+      box-shadow:inset 0 0 0 1px var(--border);
+    }
+    .tag{margin-top: var(--s-2); color:var(--ink-2); font-weight:700; letter-spacing:.5px; text-transform:uppercase}
+    .sub{margin-top: var(--s-3); color:var(--ink-3); max-width: var(--measure)}
+    .now{
+      margin-top: var(--s-3); padding: var(--s-2) var(--s-3);
+      border:1px dashed var(--border); border-radius:12px;
+      color:var(--ink-2); font:600 var(--fs-1)/1.5 Inter, sans-serif;
+    }
+    .hero:before,.hero:after{
+      content:""; position:absolute; pointer-events:none; mix-blend-mode:screen; opacity:.38;
+      filter:blur(42px);
+    }
+    .hero:before{ width:420px;height:420px; right:-160px; top:-80px;
+      background: radial-gradient(circle at 30% 30%, var(--acc), transparent 60%)}
+    .hero:after{ width:520px;height:520px; left:-200px; bottom:-140px;
+      background: radial-gradient(circle at 70% 70%, var(--acc-2), transparent 60%)}
+
+    /* ===================  FILTERS  =================== */
+    .filters{border-block:1px solid var(--border); background:linear-gradient(180deg,var(--bg-2),var(--bg-3))}
+    .filters .wrap{display:flex; gap: var(--s-2); flex-wrap:wrap; padding-block: var(--s-3)}
+    .chip{
+      padding: var(--s-2) var(--s-3); border:1px solid var(--border); border-radius:999px; color:var(--ink-2);
+      background:var(--card); cursor:pointer; transition: transform var(--dur-1) var(--ease-spring), background var(--dur-2), border-color var(--dur-2);
+      font-weight:600;
+    }
+    .chip.active{ background:linear-gradient(90deg, rgba(125,249,255,.18), rgba(255,61,129,.18)); color:var(--ink); border-color:transparent}
+    .chip:hover{ transform: translateY(-1px) }
+
+    /* ===================  PROJECTS  =================== */
+    #projects .section-title{font:700 var(--fs-3)/1.2 Inter, sans-serif; letter-spacing:.4px; text-transform:uppercase; color:var(--ink-2); margin:0 0 var(--s-4)}
+    .grid{
+      display:grid; gap: var(--s-4);
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .card{
+      position:relative; background:linear-gradient(180deg,var(--card), var(--bg-2));
+      border:1px solid var(--border); border-radius:var(--radius); padding: var(--s-5);
+      box-shadow:var(--shadow);
+      transition: transform var(--dur-2) var(--ease-spring), box-shadow var(--dur-2) var(--ease-smooth), border-color var(--dur-2);
+      overflow:hidden; will-change: transform;
+    }
+    .card:hover{ transform: translateY(-6px) scale(1.01); border-color: rgba(125,249,255,.55) }
+    .card h3{ margin: var(--s-2) 0 var(--s-2); font:700 var(--fs-4)/1.3 Inter, sans-serif}
+    .meta{display:flex; flex-wrap:wrap; gap: var(--s-2); color:var(--ink-3); font-size: var(--fs-1)}
+    .desc{color:var(--ink-2); margin: var(--s-2) 0 var(--s-3); max-width: var(--measure)}
+    .topics{display:flex; flex-wrap:wrap; gap: var(--s-2); margin-top: var(--s-1)}
+    .topic{font-size:12px; padding:6px 10px; border:1px solid var(--border); border-radius:999px; color:var(--ink-2); background:var(--bg-3)}
+    .badges{display:flex; gap: var(--s-2); flex-wrap:wrap; margin-top: var(--s-2)}
+    .badge{height:20px}
+    .actions{display:flex; gap: var(--s-2); margin-top: var(--s-3)}
+    .btn{border:1px solid var(--border); padding: var(--s-2) var(--s-3); border-radius:12px; color:var(--ink-2); font-weight:700; letter-spacing:.2px; transition: transform var(--dur-1) var(--ease-spring), border-color var(--dur-2), color var(--dur-2), background var(--dur-2)}
+    .btn:hover{border-color:var(--acc); color:var(--ink); transform: translateY(-1px)}
+    .btn.primary{border-color:var(--acc); background:linear-gradient(90deg, rgba(125,249,255,.18), transparent)}
+    .skeleton{
+      background:linear-gradient(90deg, rgba(255,255,255,.04), rgba(255,255,255,.07), rgba(255,255,255,.04));
+      background-size:200% 100%; animation:shimmer 1.4s linear infinite;
+      border-radius:12px
+    }
+    @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+    .reveal{opacity:0; transform: translateY(10px) scale(.98)}
+    .reveal.in{opacity:1; transform: none; transition: opacity var(--dur-3) var(--ease-smooth), transform var(--dur-3) var(--ease-spring)}
+
+    .loading{color:var(--ink-3); text-align:center; padding: var(--s-4)}
+
+    /* ===================  FOOTER  =================== */
+    footer{border-top:1px solid var(--border); background:linear-gradient(180deg,var(--bg-2),var(--bg)); color:var(--ink-3)}
+    footer .stack{display:flex; flex-direction:column; gap: var(--s-2); align-items:center}
+    .social{display:flex; justify-content:center; gap: var(--s-3)}
+    .social a{color:var(--ink-3); font-weight:700}
+    .social a:hover{color:var(--acc)}
+
+    /* ===================  RESPONSIVE  =================== */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns: 1fr}
+      .headline{max-width: 28ch}
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Caerii's GitHub Portfolio</h1>
-        <p>Showcasing my best projects</p>
+  <a class="sr-only" href="#projects-grid">Skip to projects</a>
+
+  <header role="banner">
+    <div class="container nav">
+      <a href="#" class="brand" aria-label="Caerii home">Caerii</a>
+      <nav class="links" aria-label="Primary">
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button class="toggle" id="themeToggle" aria-label="Toggle theme">◎</button>
+      </nav>
     </div>
+  </header>
 
-    <section class="projects-section">
-        <div class="container">
-            <h2>Featured Projects</h2>
-
-            <div class="row">
-                <!-- Project 1 -->
-                <div class="col-lg-4 col-md-6 project-card">
-                    <h3><a href="https://github.com/Caerii/XRAgents">XRAgents</a></h3>
-                    <p>3D Agents controlled in AR/VR environments using Python.</p>
-                    <span class="stars">⭐ 3</span>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="col-lg-4 col-md-6 project-card">
-                    <h3><a href="https://github.com/Caerii/LifeInBetweenXR">LifeInBetweenXR</a></h3>
-                    <p>3D Map Viewer for Reality Hack 2023 using C#.</p>
-                </div>
-
-                <!-- Project 3 -->
-                <div class="col-lg-4 col-md-6 project-card">
-                    <h3><a href="https://github.com/Caerii/TheBabelBook">TheBabelBook</a></h3>
-                    <p>Library of Babel with GPT-3 integrations. Python project for AI dialogues.</p>
-                </div>
-
-                <!-- Project 4 -->
-                <div class="col-lg-4 col-md-6 project-card">
-                    <h3><a href="https://github.com/Caerii/fast360compression">fast360compression</a></h3>
-                    <p>360 Video Compression with Saliency-based technique. Developed for Georgia State REU.</p>
-                    <span class="stars">⭐ 3</span>
-                </div>
-
-                <!-- Project 5 -->
-                <div class="col-lg-4 col-md-6 project-card">
-                    <h3><a href="https://github.com/Caerii/TEAM-22-MoodSpace">MoodSpace</a></h3>
-                    <p>Emotional space navigation, forked from Reality Hack 2022.</p>
-                </div>
-            </div>
+  <main id="main" role="main">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <h1 class="headline">
+            I don’t build apps—<span class="slant">I build systems that think, move, and evolve.</span>
+          </h1>
+          <div class="tag">Modular robotics, AI swarms, neuroadaptive XR</div>
+          <p class="sub">
+            MosaicDrone (modular self-assembling drones), Superintelligent.group (AI swarm tooling),
+            and XRAgents (BCI-aware XR control). Prototypes first, papers later.
+          </p>
+          <div class="now" id="now">
+            Now: shipping swarm planning experiments • MosaicDrone v0.2 flight stack • XR neuro-controllers.
+          </div>
         </div>
+        <div aria-hidden="true" class="reveal">
+          <!-- optional hero image -->
+          <!-- <img src="/img/hero.webp" alt="" loading="lazy" width="720" height="480" style="border-radius:var(--radius); border:1px solid var(--border); box-shadow:var(--shadow)"> -->
+        </div>
+      </div>
     </section>
 
-    <div class="footer">
-        <p>&copy; 2024 Caerii's GitHub Portfolio</p>
+    <!-- FILTERS -->
+    <section class="filters" aria-label="Project filters">
+      <div class="container wrap" id="filterBar">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="robotics">Robotics</button>
+        <button class="chip" data-filter="agents">AI Agents</button>
+        <button class="chip" data-filter="xr">XR / AR / VR</button>
+        <button class="chip" data-filter="research">Research</button>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <h2 id="projects-title" class="section-title">Featured Projects</h2>
+
+        <div id="loading" class="loading">
+          <div class="skeleton" style="height:16px;width:180px;margin:0 auto var(--s-3)"></div>
+          <div class="grid">
+            <div class="card"><div class="skeleton" style="height:160px"></div></div>
+            <div class="card"><div class="skeleton" style="height:160px"></div></div>
+            <div class="card"><div class="skeleton" style="height:160px"></div></div>
+          </div>
+        </div>
+
+        <div id="projects-grid" class="grid" style="display:none" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container" style="max-width:var(--measure)">
+        <p style="color:var(--ink-3); margin:0">
+          I prototype civilization-scale systems: modular robots, self-evolving agent swarms, and neuroadaptive XR interfaces.
+          Most repos are living experiments—expect movement.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" role="contentinfo">
+    <div class="container stack">
+      <nav class="social" aria-label="Social">
+        <a href="https://github.com/Caerii" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/alif-jakir" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:contact@caerii.dev">Email</a>
+        <a href="https://twitter.com/caerii_dev" target="_blank" rel="noopener">Twitter</a>
+      </nav>
+      <small>&copy; <span id="year"></span> Alif Jakir (Caerii). Build boldly.</small>
     </div>
+  </footer>
+
+  <script>
+    // ================== THEME ==================
+    (function(){
+      const root = document.documentElement;
+      const saved = localStorage.getItem('theme') || 'dark';
+      root.setAttribute('data-theme', saved);
+      const btn = document.getElementById('themeToggle');
+      btn.addEventListener('click', ()=>{
+        const cur = root.getAttribute('data-theme');
+        const next = cur === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+
+    // ================== CONFIG ==================
+    const USER = 'Caerii';
+
+    // Curated list you actually want to feature
+    const ALLOWLIST = [
+      'Superintelligent.group',
+      'MosaicDrone',
+      'VisuaML',
+      'Nanotech.school',
+      'XRAgents',
+      'fast360compression',
+      'TheBabelBook',
+      'LifeInBetweenXR',
+      'TEAM-22-MoodSpace'
+    ];
+
+    // Stable categories per repo
+    const CATEGORIES = {
+      "Superintelligent.group": ["agents"],
+      "MosaicDrone": ["robotics"],
+      "VisuaML": ["agents","research"],
+      "Nanotech.school": ["research"],
+      "XRAgents": ["xr","agents"],
+      "fast360compression": ["research"],
+      "TheBabelBook": ["agents","research"],
+      "LifeInBetweenXR": ["xr"],
+      "TEAM-22-MoodSpace": ["xr"]
+    };
+
+    // ================== HELPERS ==================
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    function qsParam(name){
+      const u = new URL(location.href);
+      return u.searchParams.get(name);
+    }
+    function setQsParam(name, value){
+      const u = new URL(location.href);
+      if(value===null) u.searchParams.delete(name); else u.searchParams.set(name, value);
+      history.replaceState(null, '', u.toString());
+    }
+    async function fetchJSON(url, opts={}){
+      const r = await fetch(url, opts);
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    }
+    function topicBadges(topics){
+      return (topics||[]).map(t=>`<span class="topic">${t}</span>`).join('');
+    }
+    function shieldBadges(name, stars, license){
+      const s = [];
+      s.push(`<img class="badge" alt="Last commit" src="https://img.shields.io/github/last-commit/${USER}/${name}?style=flat">`);
+      if(stars>0) s.push(`<img class="badge" alt="Stars" src="https://img.shields.io/github/stars/${USER}/${name}?style=flat">`);
+      if(license) s.push(`<img class="badge" alt="License" src="https://img.shields.io/github/license/${USER}/${name}?style=flat">`);
+      return s.join('');
+    }
+    function card(repo){
+      const cats = CATEGORIES[repo.name] || [];
+      const desc = (repo.description || 'Experimental prototype.').slice(0, 220);
+      const homepageBtn = repo.homepage ? `<a class="btn primary" href="${repo.homepage}" target="_blank" rel="noopener">Demo</a>` : '';
+      // motion seed for subtle parallax
+      const seed = (repo.id % 7) - 3; // -3..3
+      return `
+        <article class="card reveal" data-cats="${cats.join(' ')}" style="--tilt:${seed};">
+          <div class="meta">
+            <span title="Updated">${new Date(repo.updated_at).toLocaleDateString()}</span>
+            <span title="Language">${repo.language || 'Mixed'}</span>
+            <span title="Stars">★ ${repo.stargazers_count}</span>
+            <span title="Forks">⎇ ${repo.forks_count}</span>
+          </div>
+          <h3><a href="${repo.html_url}" target="_blank" rel="noopener">${repo.name}</a></h3>
+          <p class="desc">${desc}</p>
+          <div class="topics">${topicBadges(repo.topics)}</div>
+          <div class="badges">${shieldBadges(repo.name, repo.stargazers_count, repo.license && repo.license.spdx_id)}</div>
+          <div class="actions">
+            ${homepageBtn}
+            <a class="btn" href="${repo.html_url}" target="_blank" rel="noopener">GitHub</a>
+          </div>
+        </article>`;
+    }
+
+    function applyFilter(filter){
+      const target = filter || qsParam('filter') || 'all';
+      $$('.chip').forEach(ch => ch.classList.toggle('active', ch.dataset.filter===target));
+      $$('#projects-grid .card').forEach(c => {
+        const cats = (c.getAttribute('data-cats')||'').split(' ').filter(Boolean);
+        const show = (target==='all') || cats.includes(target);
+        c.style.display = show ? '' : 'none';
+      });
+      setQsParam('filter', target==='all'? null : target);
+    }
+
+    // Scroll reveal (respect reduced motion)
+    function setupReveal(){
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        $$('.reveal').forEach(el=>el.classList.add('in'));
+        return;
+      }
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('in');
+            io.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -10% 0px', threshold: .08 });
+      $$('.reveal').forEach(el=>io.observe(el));
+    }
+
+    // ================== DATA LOADING ==================
+    async function loadFromCache(){
+      const all = await fetchJSON('./repos.json');
+      return all.filter(r => ALLOWLIST.includes(r.name));
+    }
+    async function loadFromLive(){
+      const repos = await fetchJSON(`https://api.github.com/users/${USER}/repos?per_page=100&sort=updated`);
+      const filtered = repos.filter(r => ALLOWLIST.includes(r.name));
+      for (const r of filtered){
+        try{
+          const t = await fetchJSON(`https://api.github.com/repos/${USER}/${r.name}/topics`, {
+            headers: { 'Accept':'application/vnd.github+json' }
+          });
+          r.topics = t.names || [];
+        }catch(e){ r.topics = []; }
+      }
+      return filtered;
+    }
+
+    async function loadProjects(){
+      const grid = document.getElementById('projects-grid');
+      const loading = document.getElementById('loading');
+      try{
+        let repos;
+        try{
+          repos = await loadFromCache();
+        }catch(_){
+          repos = await loadFromLive();
+        }
+        repos.sort((a,b)=>(b.stargazers_count-a.stargazers_count) || (new Date(b.updated_at)-new Date(a.updated_at)));
+        grid.innerHTML = repos.map(card).join('');
+        loading.style.display = 'none';
+        grid.style.display = 'grid';
+        setupReveal();
+        applyFilter(); // respect URL
+      }catch(e){
+        loading.innerHTML = `<div class="loading">Could not load projects. <button class="chip" onclick="loadProjects()">Retry</button></div>`;
+        console.error(e);
+      }
+    }
+
+    // ================== INIT ==================
+    (function init(){
+      // year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // filter bar
+      Array.from(document.querySelectorAll('#filterBar .chip')).forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          Array.from(document.querySelectorAll('#filterBar .chip')).forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active');
+          applyFilter(btn.dataset.filter);
+        });
+      });
+
+      // load data
+      loadProjects();
+    })();
+  </script>
 </body>
 </html>
